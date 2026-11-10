@@ -1,0 +1,70 @@
+# ==========================================
+# 1. Python & Backend
+# ==========================================
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+
+# Virtual Environments (backend/.venv aur generic)
+.venv/
+backend/.venv/
+venv/
+env/
+ENV/
+
+# Python packaging & build
+build/
+*.egg-info/
+
+
+# ==========================================
+# 2. Frontend (Node, Vite, Bun)
+# ==========================================
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Production build artifacts (dist folder)
+dist/
+frontend/dist/
+dist-ssr/
+
+# Bun & Node logs
+bun.lockb
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+
+# ==========================================
+# 3. Secrets & Environment Variables
+# ==========================================
+# API keys, DB credentials, etc.
+.env
+.env.local
+.env.*.local
+*.env
+backend/.env
+frontend/.env
+
+
+# ==========================================
+# 4. Editors & Operating System
+# ==========================================
+# VS Code / IDEs
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
