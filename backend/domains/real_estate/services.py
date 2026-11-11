@@ -5,7 +5,6 @@ from __future__ import annotations
 from typing import Any, Optional
 
 from core.types import LeadTemperature
-from domains.real_estate.mock_data import get_all_properties
 from domains.real_estate.models import (
     ActionPriority,
     Lead,
@@ -13,6 +12,7 @@ from domains.real_estate.models import (
     NextBestAction,
     Property,
 )
+from domains.real_estate.providers import ListingProvider, get_provider
 
 
 # ---------------------------------------------------------------------------
@@ -20,55 +20,51 @@ from domains.real_estate.models import (
 # ---------------------------------------------------------------------------
 
 class PropertyMatchingService:
-    """Searches and ranks the property catalogue against buyer criteria."""
+    """Fetches live listings for any Indian city, then filters and ranks them."""
 
-    def __init__(self) -> None:
-        self._properties: list[Property] = get_all_properties()
+    def __init__(self, provider: ListingProvider | None = None) -> None:
+        self._provider = provider or get_provider()
 
     def search(
         self,
+        city: str,
         location: Optional[str] = None,
         bhk: Optional[int] = None,
         budget_min: Optional[float] = None,
         budget_max: Optional[float] = None,
         limit: int = 5,
     ) -> list[Property]:
-        """Return up to *limit* properties matching the given filters.
+        """Return up to *limit* properties in *city* matching the filters.
 
-        Budget values are in **Lakhs**.  A ±15 % tolerance is applied so
-        near-budget properties are still surfaced.
+        city     - any city in India, e.g. "Jaipur", "Indore", "Surat".
+        location - optional locality inside that city, e.g. "Vaishali Nagar".
+        Budget values are in Lakhs, with a ±15 % tolerance.
         """
+        properties = self._provider.fetch(
+    city, bhk=bhk, budget_min=budget_min, budget_max=budget_max
+)
         candidates: list[tuple[float, Property]] = []
 
-        for prop in self._properties:
+        for prop in properties:
             if prop.status.value != "AVAILABLE":
                 continue
 
             score = 0.0
 
-            # --- location match (corridor-aware) ---
+            # --- locality match (optional) ---
             if location:
-                loc_lower = location.lower()
-                area_lower = prop.address.area.lower()
-                desc_lower = prop.description.lower()
+                loc = location.lower().strip()
+                area = (prop.address.area or "").lower()
+                desc = prop.description.lower()
 
-                # Pune real estate corridor clusters``
-                corridor_map = {
-                    "baner": ["baner", "mahalunge", "balewadi", "pashan"],
-                    "hinjewadi": ["hinjewadi", "wakad", "marunji", "punawale"],
-                    "kharadi": ["kharadi", "keshav nagar", "wagholi"],
-                    "viman nagar": ["viman nagar", "kalyani nagar", "kondhwa"],
-                }
-                synonyms = corridor_map.get(loc_lower, [loc_lower])
-
-                if loc_lower in area_lower or area_lower in loc_lower or any(s in area_lower for s in synonyms):
-                    score += 40.0  # exact / corridor cluster match
-                elif loc_lower in desc_lower or any(s in desc_lower for s in synonyms):
-                    score += 30.0  # mentioned in property description / proximity
-                elif any(tok in area_lower for tok in loc_lower.split()):
+                if area and (loc in area or area in loc):
+                    score += 40.0  # exact locality match
+                elif loc in desc:
+                    score += 30.0  # mentioned in description / proximity
+                elif any(tok in area for tok in loc.split()):
                     score += 20.0  # partial token match
                 else:
-                    continue  # skip if location explicitly given but doesn't match
+                    continue  # locality given but doesn't match
 
             # --- BHK match ---
             if bhk is not None:
@@ -126,8 +122,8 @@ class LeadScoringService:
             budget_fit = 70.0  # has a budget range
             bmin = customer_profile.get("budget_min", 0)
             bmax = customer_profile.get("budget_max", 0)
-            if bmin and bmax and 20 <= bmin <= 500 and 20 <= bmax <= 500:
-                budget_fit = 90.0  # realistic range for Pune
+            if bmin and bmax and 10 <= bmin <= 5000 and 10 <= bmax <= 5000:
+                budget_fit = 90.0  # realistic range for Indian cities
 
         # --- location match ---
         location_match = 0.0

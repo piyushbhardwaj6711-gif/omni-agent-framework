@@ -27,6 +27,7 @@ def list_properties(
         budget_min=budget_min,
         budget_max=budget_max,
         limit=limit,
+        city=city,
     )
     return [p.model_dump(mode="json") for p in props]
 

@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
+import os
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Optional, Protocol, runtime_checkable
 
 from domains.real_estate.calculators import calculate_emi
-from domains.real_estate.mock_data import get_all_properties
 from domains.real_estate.models import SiteVisit, SiteVisitStatus
 from domains.real_estate.services import LeadScoringService, PropertyMatchingService
 
@@ -44,7 +44,7 @@ class Tool(Protocol):
 # ---------------------------------------------------------------------------
 
 class PropertySearchTool:
-    """Searches mock property data by location, BHK, and budget."""
+    """Searches live property listings by city, locality, BHK, and budget."""
 
     @property
     def name(self) -> str:
@@ -52,12 +52,19 @@ class PropertySearchTool:
 
     @property
     def description(self) -> str:
-        return "Search properties by location, BHK type, and budget range"
+        return "Search properties in any Indian city by locality, BHK type, and budget range"
 
     def __init__(self) -> None:
         self._service = PropertyMatchingService()
 
     def execute(self, parameters: dict[str, Any], context: dict[str, Any]) -> ToolResult:
+        # City can come from the tool call or from the conversation context.
+        # Falls back to DEFAULT_CITY (env var) so the old flow keeps working.
+        city = (
+            parameters.get("city")
+            or context.get("city")
+            or os.getenv("DEFAULT_CITY", "Pune")
+        )
         location = parameters.get("location")
         bhk = parameters.get("bhk")
         budget_min = parameters.get("budget_min")
@@ -70,17 +77,22 @@ class PropertySearchTool:
         elif budget_max and not budget_min:
             budget_min = budget_max * 0.85
 
-        results = self._service.search(
-            location=location,
-            bhk=bhk,
-            budget_min=budget_min,
-            budget_max=budget_max,
-            limit=parameters.get("limit", 5),
-        )
+        try:
+            results = self._service.search(
+                city=city,
+                location=location,
+                bhk=bhk,
+                budget_min=budget_min,
+                budget_max=budget_max,
+                limit=parameters.get("limit", 5),
+            )
+        except Exception as exc:  # network / API failure should not crash the chat
+            return ToolResult(success=False, error=f"Property search failed: {exc}")
 
         return ToolResult(
             success=True,
             data={
+                "city": city,
                 "properties": [p.model_dump(mode="json") for p in results],
                 "count": len(results),
             },
