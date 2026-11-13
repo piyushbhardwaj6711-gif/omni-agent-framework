@@ -36,7 +36,7 @@ export default function ChatInput({
   };
 
   return (
-    <div className="border-t border-gray-200 bg-white">
+    <div className="border-t border-bronze-faint pb-1">
       {/* Quick replies */}
       {quickReplies.length > 0 && (
         <div className="flex gap-2 px-4 pt-3 pb-1 overflow-x-auto scrollbar-hide">
@@ -47,7 +47,7 @@ export default function ChatInput({
                 if (!disabled) onSend(reply);
               }}
               disabled={disabled}
-              className="flex-shrink-0 text-xs px-3 py-1.5 rounded-full border border-brand-200 text-brand-600 bg-brand-50 hover:bg-brand-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-shrink-0 text-xs px-3 py-1.5 rounded-full border border-bronze text-peach-300 bg-canvas-raised hover:border-brand-500/50 hover:text-peach-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {reply}
             </button>
@@ -65,12 +65,13 @@ export default function ChatInput({
           onKeyDown={handleKeyDown}
           disabled={disabled}
           placeholder="Apna sawaal puchiye... (Ask your question)"
-          className="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 bg-gray-50 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-shadow"
+          className="flex-1 px-4 py-2.5 rounded-xl border border-bronze bg-canvas-raised text-sm text-ivory placeholder-ivory-faint focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-shadow"
         />
         <button
           onClick={handleSend}
           disabled={disabled || !text.trim()}
-          className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-brand-600 to-indigo-700 text-white flex items-center justify-center hover:from-brand-700 hover:to-indigo-800 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md"
+          aria-label="Send message"
+          className="flex-shrink-0 w-10 h-10 rounded-xl bg-brand-500 text-canvas-deep flex items-center justify-center hover:bg-brand-400 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
         >
           <Send className="h-4 w-4" />
         </button>

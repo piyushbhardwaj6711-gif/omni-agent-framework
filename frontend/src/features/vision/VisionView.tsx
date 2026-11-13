@@ -118,7 +118,7 @@ const CAPABILITIES: CapabilityCard[] = [
   },
   {
     title: 'Multi-Business Operating Layer',
-    description: 'The horizontal business operating architecture designed to extend EstateIQ capabilities to adjacent verticals.',
+    description: 'The horizontal business operating architecture designed to extend PONDO capabilities to adjacent verticals.',
     icon: Building2,
     category: 'Platform Vision',
     stage: 'Phase 7-9',
@@ -128,28 +128,28 @@ const CAPABILITIES: CapabilityCard[] = [
 
 export default function VisionView() {
   return (
-    <div className="space-y-12 pb-16">
+    <div className="max-w-6xl space-y-12 pb-16">
       {/* Hero Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-900 via-indigo-950 to-purple-950 p-8 sm:p-12 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-800 via-brand-900 to-canvas-deep p-8 sm:p-12 text-ivory shadow-card border border-bronze">
         <div className="relative z-10 max-w-3xl space-y-4">
-          <Badge variant="info" size="sm" className="bg-indigo-500/20 text-indigo-200 border-indigo-400/30">
-            EstateIQ Roadmap & Architectural Blueprint
+          <Badge variant="info" size="sm">
+            PONDO Roadmap & Architectural Blueprint
           </Badge>
 
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight leading-tight">
             From Vertical Real Estate AI <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-rose-300 to-indigo-200">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-peach-200 via-brand-300 to-peach-400">
               To Enterprise AI Operating Layer
             </span>
           </h1>
 
-          <p className="text-sm sm:text-base text-indigo-200/90 leading-relaxed font-light">
-            EstateIQ V0 demonstrates the fundamental truth: <strong>raw inquiries can be autonomously understood, grounded in real inventory, and converted into prioritized business opportunities</strong>. Below is the planned architecture progression from V0 Demo to the full Enterprise Platform.
+          <p className="text-sm sm:text-base text-peach-200/80 leading-relaxed font-light">
+            PONDO V0 demonstrates the fundamental truth: <strong className="text-ivory">raw inquiries can be autonomously understood, grounded in real inventory, and converted into prioritized business opportunities</strong>. Below is the planned architecture progression from V0 Demo to the full Enterprise Platform.
           </p>
 
-          <div className="pt-2 flex items-center gap-3 text-xs text-indigo-300">
-            <span className="flex items-center gap-1 font-semibold text-white">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" /> V0 Demo Built
+          <div className="pt-2 flex flex-wrap items-center gap-3 text-xs text-peach-300/70">
+            <span className="flex items-center gap-1 font-semibold text-ivory">
+              <CheckCircle2 className="w-4 h-4 text-success-400" /> V0 Demo Built
             </span>
             <span>→</span>
             <span>V1 Assistant</span>
@@ -164,16 +164,16 @@ export default function VisionView() {
           </div>
         </div>
 
-        {/* Ambient background glow */}
-        <div className="absolute -right-20 -bottom-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl pointer-events-none" />
+        {/* Ambient background accent */}
+        <div className="absolute -right-20 -bottom-20 w-96 h-96 bg-brand-500/20 rounded-full blur-3xl pointer-events-none" />
       </div>
 
       {/* Evolution Timeline Graphic */}
-      <div className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200 shadow-sm space-y-6">
+      <div className="bg-canvas-overlay rounded-2xl p-6 sm:p-8 border border-bronze shadow-card space-y-6">
         <div>
-          <h2 className="text-xl font-bold text-gray-900">Planned Evolution Stages</h2>
-          <p className="text-xs text-gray-500 mt-0.5">
-            How EstateIQ's modular architecture scales cleanly without throwing away early foundations
+          <h2 className="text-xl font-bold text-ivory">Planned Evolution Stages</h2>
+          <p className="text-xs text-ivory-muted mt-0.5">
+            How PONDO's modular architecture scales cleanly without throwing away early foundations
           </p>
         </div>
 
@@ -214,28 +214,30 @@ export default function VisionView() {
               key={idx}
               className={`p-4 rounded-xl border relative flex flex-col justify-between ${
                 item.current
-                  ? 'bg-indigo-50/60 border-indigo-300 ring-2 ring-indigo-500/20'
-                  : 'bg-gray-50 border-gray-200'
+                  ? 'bg-brand-500/10 border-brand-500/40 ring-2 ring-brand-500/20'
+                  : 'bg-canvas-raised border-bronze'
               }`}
             >
               <div>
                 <div className="flex items-center justify-between">
                   <span className={`text-xs font-black px-2 py-0.5 rounded ${
-                    item.current ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'
+                    item.current
+                      ? 'bg-brand-500 text-[#171411]'
+                      : 'bg-canvas-deep text-ivory-muted border border-bronze'
                   }`}>
                     {item.step}
                   </span>
                   {item.current && (
-                    <span className="text-[10px] font-bold text-indigo-700 uppercase tracking-wider">
+                    <span className="text-[10px] font-bold text-brand-300 uppercase tracking-wider">
                       Current
                     </span>
                   )}
                 </div>
-                <h3 className="text-sm font-bold text-gray-900 mt-2">{item.title}</h3>
-                <p className="text-xs text-gray-500 mt-1 leading-relaxed">{item.desc}</p>
+                <h3 className="text-sm font-bold text-ivory mt-2">{item.title}</h3>
+                <p className="text-xs text-ivory-muted mt-1 leading-relaxed">{item.desc}</p>
               </div>
 
-              <div className="mt-4 pt-2 border-t border-gray-200/60 flex items-center text-[10px] font-semibold text-gray-400">
+              <div className="mt-4 pt-2 border-t border-bronze-faint flex items-center text-[10px] font-semibold text-ivory-faint">
                 <span>Phase {idx * 2}</span>
               </div>
             </div>
@@ -247,9 +249,9 @@ export default function VisionView() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold text-gray-900">12 Core Future Capabilities</h2>
-            <p className="text-xs text-gray-500 mt-0.5">
-              Architectural components specified in the EstateIQ Master Build Brief
+            <h2 className="text-xl font-bold text-ivory">12 Core Future Capabilities</h2>
+            <p className="text-xs text-ivory-muted mt-0.5">
+              Architectural components specified in the PONDO Master Build Brief
             </p>
           </div>
           <Badge variant="default" size="sm">
@@ -264,22 +266,22 @@ export default function VisionView() {
               <motion.div
                 key={idx}
                 whileHover={{ y: -3 }}
-                className="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm hover:border-indigo-300 hover:shadow-md transition-all flex flex-col justify-between"
+                className="bg-canvas-overlay rounded-2xl p-5 border border-bronze shadow-card hover:border-bronze-light transition-all flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <div className="p-2.5 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-100">
+                    <div className="p-2.5 rounded-xl bg-brand-500/10 text-brand-400 border border-brand-500/20">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-gray-100 text-gray-600">
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-canvas-raised text-ivory-muted border border-bronze-faint">
                       {cap.stage}
                     </span>
                   </div>
 
-                  <h3 className="text-base font-bold text-gray-900 leading-snug">
+                  <h3 className="text-base font-bold text-ivory leading-snug">
                     {cap.title}
                   </h3>
-                  <p className="text-xs text-gray-500 mt-1.5 leading-relaxed">
+                  <p className="text-xs text-ivory-muted mt-1.5 leading-relaxed">
                     {cap.description}
                   </p>
 
@@ -287,18 +289,18 @@ export default function VisionView() {
                     {cap.features.map((feat, fIdx) => (
                       <div
                         key={fIdx}
-                        className="flex items-center gap-1.5 text-xs text-gray-600"
+                        className="flex items-center gap-1.5 text-xs text-ivory-muted"
                       >
-                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-brand-500 shrink-0" />
                         <span>{feat}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="mt-5 pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-400">
+                <div className="mt-5 pt-3 border-t border-bronze-faint flex items-center justify-between text-xs text-ivory-faint">
                   <span>{cap.category}</span>
-                  <span className="text-indigo-600 font-medium flex items-center gap-1">
+                  <span className="text-brand-300 font-medium flex items-center gap-1">
                     Spec Ready <ArrowRight className="w-3 h-3" />
                   </span>
                 </div>

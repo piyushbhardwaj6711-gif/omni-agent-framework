@@ -30,10 +30,10 @@ export default function LeadCard({ lead, onExecuteAction }: LeadCardProps) {
   const tempEmoji = isHot ? '🔥 HOT LEAD' : isWarm ? '☀️ WARM' : '❄️ COLD';
 
   const borderColor = isHot
-    ? 'border-l-rose-500'
+    ? 'border-l-danger-500'
     : isWarm
-    ? 'border-l-amber-500'
-    : 'border-l-blue-400';
+    ? 'border-l-warning-500'
+    : 'border-l-peach-400';
 
   const locations = Array.isArray(lead.preferred_locations)
     ? lead.preferred_locations.join(', ')
@@ -47,57 +47,57 @@ export default function LeadCard({ lead, onExecuteAction }: LeadCardProps) {
   return (
     <motion.div
       layout
-      className={`bg-white rounded-xl shadow-sm border border-gray-200 border-l-4 ${borderColor} p-5 hover:shadow-md transition-shadow`}
+      className={`bg-canvas-overlay rounded-xl shadow-card border border-bronze border-l-4 ${borderColor} p-5 hover:border-bronze-light transition-colors`}
     >
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         {/* Left: Customer Info & Requirements */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-3 flex-wrap">
-            <h3 className="text-base font-bold text-gray-900 truncate">
+            <h3 className="text-base font-semibold text-ivory truncate">
               {lead.customer_name}
             </h3>
             <Badge variant={tempBadgeVariant} size="sm">
               {tempEmoji}
             </Badge>
-            <span className="text-xs font-semibold px-2 py-0.5 rounded bg-gray-100 text-gray-700">
+            <span className="text-xs font-semibold px-2 py-0.5 rounded bg-canvas-raised text-ivory-muted border border-bronze-faint">
               {lead.status}
             </span>
           </div>
 
-          <div className="mt-2 flex items-center gap-4 text-xs text-gray-500 flex-wrap">
+          <div className="mt-2 flex items-center gap-4 text-xs text-ivory-muted flex-wrap">
             {lead.phone && (
               <span className="flex items-center gap-1 font-mono">
-                <Phone className="w-3.5 h-3.5 text-gray-400" />
+                <Phone className="w-3.5 h-3.5 text-ivory-faint" />
                 {lead.phone}
               </span>
             )}
             {lead.email && (
               <span className="flex items-center gap-1">
-                <Mail className="w-3.5 h-3.5 text-gray-400" />
+                <Mail className="w-3.5 h-3.5 text-ivory-faint" />
                 {lead.email}
               </span>
             )}
             <span className="flex items-center gap-1">
-              <Calendar className="w-3.5 h-3.5 text-gray-400" />
-              Source: <strong className="text-gray-700">WhatsApp / Chat</strong>
+              <Calendar className="w-3.5 h-3.5 text-ivory-faint" />
+              Source: <strong className="text-ivory-muted">WhatsApp / Chat</strong>
             </span>
           </div>
 
           {/* Quick Requirements Bar */}
           <div className="mt-3 flex items-center gap-2 flex-wrap text-xs font-medium">
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-100">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-brand-500/10 text-brand-300 border border-brand-500/20">
               <Home className="w-3.5 h-3.5" />
               {lead.bhk_preference ? `${lead.bhk_preference} BHK` : '3 BHK'}
             </span>
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-100">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-success-100 text-success-400 border border-success-200">
               <MapPin className="w-3.5 h-3.5" />
               {locations}
             </span>
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-amber-50 text-amber-700 border border-amber-100">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-warning-100 text-warning-400 border border-warning-200">
               Budget: {budgetText}
             </span>
             {lead.financing_needed && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-purple-50 text-purple-700 border border-purple-100">
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-peach-500/10 text-peach-300 border border-peach-500/20">
                 <CreditCard className="w-3.5 h-3.5" />
                 Loan Required (80%)
               </span>
@@ -106,15 +106,15 @@ export default function LeadCard({ lead, onExecuteAction }: LeadCardProps) {
         </div>
 
         {/* Right: Score Gauge & Conversion Prob */}
-        <div className="flex items-center gap-4 shrink-0 self-end sm:self-center border-t sm:border-t-0 pt-3 sm:pt-0 w-full sm:w-auto justify-between sm:justify-end">
+        <div className="flex items-center gap-4 shrink-0 self-end sm:self-center border-t sm:border-t-0 border-bronze-faint pt-3 sm:pt-0 w-full sm:w-auto justify-between sm:justify-end">
           <div className="text-right">
-            <div className="text-xs text-gray-400 uppercase tracking-wider font-semibold">
+            <div className="text-xs text-ivory-faint uppercase tracking-wider font-semibold">
               Conv. Probability
             </div>
-            <div className="text-xl font-extrabold text-gray-900">
+            <div className="text-xl font-bold text-ivory">
               {Math.round((lead.conversion_probability || 0.8) * 100)}%
             </div>
-            <div className="text-[10px] text-gray-400">Calibrated ML score</div>
+            <div className="text-[10px] text-ivory-faint">Calibrated ML score</div>
           </div>
 
           <div className="relative">
@@ -123,8 +123,9 @@ export default function LeadCard({ lead, onExecuteAction }: LeadCardProps) {
 
           <button
             onClick={() => setExpanded(!expanded)}
-            className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+            className="p-1.5 rounded-lg text-ivory-faint hover:text-ivory hover:bg-white/[0.06] transition-colors"
             title="Expand Details"
+            aria-expanded={expanded}
           >
             <ChevronDown
               className={`w-5 h-5 transition-transform duration-200 ${
@@ -142,17 +143,17 @@ export default function LeadCard({ lead, onExecuteAction }: LeadCardProps) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="mt-4 pt-4 border-t border-gray-100 space-y-3"
+            className="mt-4 pt-4 border-t border-bronze-faint space-y-3"
           >
             {/* Next Best Action Suggestion */}
-            <div className="p-3 rounded-lg bg-gradient-to-r from-indigo-50/70 to-purple-50/70 border border-indigo-100 flex items-start justify-between gap-3">
+            <div className="p-3 rounded-lg bg-brand-500/[0.07] border border-brand-500/20 flex items-start justify-between gap-3">
               <div className="flex items-start gap-2">
-                <Sparkles className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
+                <Sparkles className="w-4 h-4 text-brand-400 shrink-0 mt-0.5" />
                 <div>
-                  <div className="text-xs font-bold text-indigo-900">
+                  <div className="text-xs font-bold text-brand-300">
                     Recommended Next-Best-Action:
                   </div>
-                  <div className="text-xs text-indigo-800 mt-0.5">
+                  <div className="text-xs text-ivory-muted mt-0.5">
                     {isHot
                       ? 'Call within 10 minutes and confirm the Saturday site visit with property brochure.'
                       : 'Share personalized WhatsApp walkthrough and connect with HDFC loan specialist.'}
@@ -168,7 +169,7 @@ export default function LeadCard({ lead, onExecuteAction }: LeadCardProps) {
                       isHot ? 'Confirm Site Visit' : 'Send WhatsApp Brochure'
                     )
                   }
-                  className="shrink-0 px-3 py-1.5 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shadow-sm transition-colors"
+                  className="shrink-0 px-3 py-1.5 rounded-md bg-brand-500 hover:bg-brand-400 text-[#171411] text-xs font-semibold transition-colors"
                 >
                   Execute Action
                 </button>
@@ -177,8 +178,8 @@ export default function LeadCard({ lead, onExecuteAction }: LeadCardProps) {
 
             {/* Interaction Notes */}
             {lead.notes && (
-              <div className="text-xs text-gray-600 bg-gray-50 rounded-lg p-3">
-                <span className="font-semibold text-gray-700">Interaction Log & Signals:</span>
+              <div className="text-xs text-ivory-muted bg-canvas-raised rounded-lg p-3 border border-bronze-faint">
+                <span className="font-semibold text-ivory">Interaction Log & Signals:</span>
                 <p className="mt-1 font-mono text-[11px] leading-relaxed">
                   {typeof lead.notes === 'string'
                     ? lead.notes

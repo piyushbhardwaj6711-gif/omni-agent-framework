@@ -1,10 +1,15 @@
 import { Zap } from 'lucide-react';
 
+/**
+ * Demo-mode disclosure pill. Rendered inline (top bar, page headers) rather
+ * than as a full-width strip, keeping the interface quiet while preserving
+ * the simulated-data notice.
+ */
 export default function SimulatedBanner() {
   return (
-    <div className="flex items-center justify-center gap-1.5 bg-amber-50 border-b border-amber-200 px-4 py-1.5 text-xs font-medium text-amber-700">
-      <Zap className="h-3 w-3 fill-amber-500 text-amber-500" />
-      <span>SIMULATED DATA — Demo Mode</span>
-    </div>
+    <span className="inline-flex items-center gap-1.5 bg-warning-100 border border-warning-200 px-2.5 py-1 text-[11px] font-medium text-warning-400 rounded-full">
+      <Zap className="h-3 w-3 fill-warning-500 text-warning-500" />
+      <span>Demo data</span>
+    </span>
   );
 }

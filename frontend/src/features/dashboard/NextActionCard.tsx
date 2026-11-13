@@ -25,7 +25,7 @@ export default function NextActionCard({ actionItem, onExecute }: NextActionCard
   return (
     <motion.div
       whileHover={{ y: -2 }}
-      className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm flex flex-col justify-between hover:border-indigo-300 transition-all"
+      className="bg-canvas-raised rounded-xl p-4 border border-bronze shadow-pill flex flex-col justify-between hover:border-bronze-light transition-all"
     >
       <div>
         <div className="flex items-center justify-between gap-2 mb-2">
@@ -33,33 +33,33 @@ export default function NextActionCard({ actionItem, onExecute }: NextActionCard
             {actionItem.priority.toUpperCase()} PRIORITY
           </Badge>
           {actionItem.deadline && (
-            <span className="flex items-center gap-1 text-[11px] font-medium text-rose-600 bg-rose-50 px-2 py-0.5 rounded">
+            <span className="flex items-center gap-1 text-[11px] font-medium text-danger-400 bg-danger-100 px-2 py-0.5 rounded">
               <Clock className="w-3 h-3" />
               {actionItem.deadline}
             </span>
           )}
         </div>
 
-        <h4 className="text-sm font-bold text-gray-900 leading-snug">
+        <h4 className="text-sm font-bold text-ivory leading-snug">
           {actionItem.action}
         </h4>
 
         {actionItem.customer_name && (
-          <div className="text-xs font-semibold text-indigo-600 mt-1">
+          <div className="text-xs font-semibold text-brand-300 mt-1">
             Lead: {actionItem.customer_name}
           </div>
         )}
 
-        <div className="flex items-start gap-1.5 mt-2 text-xs text-gray-500">
-          <AlertCircle className="w-3.5 h-3.5 text-gray-400 shrink-0 mt-0.5" />
+        <div className="flex items-start gap-1.5 mt-2 text-xs text-ivory-muted">
+          <AlertCircle className="w-3.5 h-3.5 text-ivory-faint shrink-0 mt-0.5" />
           <p className="line-clamp-2">{actionItem.reason}</p>
         </div>
       </div>
 
-      <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-end">
+      <div className="mt-4 pt-3 border-t border-bronze-faint flex items-center justify-end">
         <button
           onClick={() => onExecute && onExecute(actionItem.action)}
-          className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
+          className="inline-flex items-center gap-1 text-xs font-semibold text-brand-300 hover:text-brand-200 transition-colors"
         >
           Take Action
           <ArrowRight className="w-3.5 h-3.5" />

@@ -7,58 +7,97 @@ export default {
   theme: {
     extend: {
       colors: {
-        brand: {
-          50: '#eef2ff',
-          100: '#e0e7ff',
-          200: '#c7d2fe',
-          300: '#a5b4fc',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
-          950: '#1e1b4b',
+        // PONDO warm identity
+        // canvas = backgrounds, ivory = text, brand = terracotta accent,
+        // peach = soft accent, bronze = borders.
+        canvas: {
+          DEFAULT: '#171411', // deep warm black — primary background
+          deep: '#100D0B',    // recessed areas (sidebar well, inputs)
+          soft: '#211B17',    // dark brown — sidebar / panels
+          raised: '#2A211B',  // elevated surfaces (cards, pills)
+          overlay: '#241D18', // subtle card surface between soft and raised
         },
-        accent: {
-          50: '#fffbeb',
-          100: '#fef3c7',
-          200: '#fde68a',
-          300: '#fcd34d',
-          400: '#fbbf24',
-          500: '#f59e0b',
-          600: '#d97706',
-          700: '#b45309',
-          800: '#92400e',
-          900: '#78350f',
+        bronze: {
+          DEFAULT: '#3B3028', // subtle dark bronze — borders
+          light: '#4A3B30',   // hover borders
+          faint: '#2E251E',   // hairline dividers
+        },
+        ivory: {
+          DEFAULT: '#F5EEE6', // primary text
+          muted: '#A69A90',   // secondary text
+          faint: '#7A6E64',   // tertiary text / timestamps
+        },
+        brand: {
+          // Warm terracotta — primary accent
+          50: '#FAF3EE',
+          100: '#F3E2D6',
+          200: '#E8C9B4',
+          300: '#DCAE90',
+          400: '#D29470',
+          500: '#C87950',
+          600: '#B0623C',
+          700: '#8F4E2F',
+          800: '#6E3C24',
+          900: '#4F2B19',
+          950: '#2E180E',
+        },
+        peach: {
+          // Soft peach — secondary accent
+          50: '#FDF8F3',
+          100: '#FAEFE6',
+          200: '#F5DFCE',
+          300: '#F0CFB6',
+          400: '#E8B99A',
+          500: '#DCA17C',
+          600: '#C8855C',
+          700: '#A66A45',
+          800: '#7E4F33',
+          900: '#573522',
         },
         success: {
-          50: '#ecfdf5',
-          100: '#d1fae5',
-          200: '#a7f3d0',
-          300: '#6ee7b7',
-          400: '#34d399',
-          500: '#10b981',
-          600: '#059669',
-          700: '#047857',
-          800: '#065f46',
-          900: '#064e3b',
+          // Warm sage green — kept muted to stay on-palette
+          100: '#2A2E26',
+          200: '#3A4234',
+          400: '#9DBBA0',
+          500: '#7FA584',
+          600: '#5E8565',
+          700: '#46674D',
+        },
+        warning: {
+          // Warm amber
+          100: '#332B1E',
+          200: '#453A26',
+          400: '#DDB377',
+          500: '#C99A55',
+          600: '#A67C3F',
+          700: '#7D5D2D',
         },
         danger: {
-          50: '#fff1f2',
-          100: '#ffe4e6',
-          200: '#fecdd3',
-          300: '#fda4af',
-          400: '#fb7185',
-          500: '#f43f5e',
-          600: '#e11d48',
-          700: '#be123c',
-          800: '#9f1239',
-          900: '#881337',
+          // Warm rose — no cool reds
+          100: '#332320',
+          200: '#462E29',
+          400: '#E08A79',
+          500: '#CE6B59',
+          600: '#AE5242',
+          700: '#823C30',
         },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+      },
+      boxShadow: {
+        // Soft, warm shadows only — no glow
+        card: '0 1px 2px rgba(0,0,0,0.4), 0 8px 24px -12px rgba(0,0,0,0.5)',
+        pill: '0 1px 2px rgba(0,0,0,0.35)',
+      },
+      keyframes: {
+        'fade-up': {
+          '0%': { opacity: '0', transform: 'translateY(8px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        'fade-up': 'fade-up 0.4s ease-out both',
       },
     },
   },

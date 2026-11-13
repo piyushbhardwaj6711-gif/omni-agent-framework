@@ -24,13 +24,23 @@ interface ChatEntry {
   metadata?: Record<string, unknown>;
 }
 
-export default function ChatView() {
+interface ChatViewProps {
+  /**
+   * Optional prompt handed off from the Home composer. Sent automatically
+   * once the conversation is initialised. Existing behaviour is unchanged
+   * when this prop is not provided.
+   */
+  initialPrompt?: string;
+}
+
+export default function ChatView({ initialPrompt }: ChatViewProps) {
   const [entries, setEntries] = useState<ChatEntry[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [notification, setNotification] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const initRef = useRef(false);
+  const initialPromptRef = useRef<string | null>(initialPrompt ?? null);
 
   const scrollToBottom = useCallback(() => {
     setTimeout(() => {
@@ -40,6 +50,8 @@ export default function ChatView() {
       });
     }, 100);
   }, []);
+
+  const handleSendRef = useRef<(text: string) => Promise<void>>(async () => {});
 
   // Initialize conversation
   useEffect(() => {
@@ -57,6 +69,14 @@ export default function ChatView() {
           timestamp: new Date().toISOString(),
         };
         setEntries([{ message: welcomeMsg }]);
+
+        // Hand-off from the Home composer: send the prompt through the
+        // existing pipeline once the conversation is ready.
+        if (initialPromptRef.current) {
+          const prompt = initialPromptRef.current;
+          initialPromptRef.current = null;
+          handleSendRef.current(prompt);
+        }
       } catch {
         const welcomeMsg: Message = {
           id: 'welcome',
@@ -65,6 +85,12 @@ export default function ChatView() {
           timestamp: new Date().toISOString(),
         };
         setEntries([{ message: welcomeMsg }]);
+
+        if (initialPromptRef.current) {
+          const prompt = initialPromptRef.current;
+          initialPromptRef.current = null;
+          handleSendRef.current(prompt);
+        }
       }
     })();
   }, []);
@@ -139,30 +165,31 @@ export default function ChatView() {
     }
   };
 
+  // Keep the ref in sync so the init effect can trigger the first send.
+  useEffect(() => {
+    handleSendRef.current = handleSend;
+  });
+
   const handleBookVisit = (property: Property) => {
     handleSend(`Book a site visit for ${property.name} this Saturday`);
   };
 
   return (
-    <div className="flex flex-col h-full bg-gray-50">
+    <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="bg-gradient-to-r from-brand-600 via-indigo-600 to-violet-600 px-4 sm:px-6 py-4 shadow-lg">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-            <Bot className="h-5 w-5 text-white" />
-          </div>
-          <div className="flex-1">
-            <h1 className="text-white font-bold text-lg leading-tight">
-              EstateIQ
-            </h1>
-            <p className="text-white/70 text-xs">AI Sales Assistant</p>
-          </div>
-          <div className="flex items-center gap-1.5 bg-white/15 backdrop-blur-sm rounded-full px-3 py-1">
-            <Wifi className="h-3 w-3 text-emerald-300" />
-            <span className="text-xs text-emerald-200 font-medium">
-              Online
-            </span>
-          </div>
+      <div className="flex items-center gap-3 px-1 py-4 border-b border-bronze-faint">
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center">
+          <Bot className="h-5 w-5 text-canvas-deep" />
+        </div>
+        <div className="flex-1">
+          <h1 className="font-semibold text-ivory text-lg leading-tight">
+            PONDO AI
+          </h1>
+          <p className="text-ivory-faint text-xs">Business Assistant</p>
+        </div>
+        <div className="flex items-center gap-1.5 bg-success-100 border border-success-200 rounded-full px-3 py-1">
+          <Wifi className="h-3 w-3 text-success-400" />
+          <span className="text-xs text-success-400 font-medium">Online</span>
         </div>
       </div>
 
@@ -173,15 +200,15 @@ export default function ChatView() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-20 left-1/2 -translate-x-1/2 z-50 bg-white border border-gray-200 shadow-lg rounded-xl px-4 py-2.5 flex items-center gap-2"
+            className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-canvas-raised border border-bronze shadow-card rounded-xl px-4 py-2.5 flex items-center gap-2"
           >
             {notification.includes('Lead') && (
-              <UserPlus className="h-4 w-4 text-emerald-500" />
+              <UserPlus className="h-4 w-4 text-success-500" />
             )}
             {notification.includes('Visit') && (
-              <CalendarCheck className="h-4 w-4 text-brand-500" />
+              <CalendarCheck className="h-4 w-4 text-brand-400" />
             )}
-            <span className="text-sm font-medium text-gray-800">
+            <span className="text-sm font-medium text-ivory">
               {notification}
             </span>
           </motion.div>

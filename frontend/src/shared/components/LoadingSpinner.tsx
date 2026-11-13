@@ -18,10 +18,10 @@ export default function LoadingSpinner({
   return (
     <div className="flex flex-col items-center justify-center gap-3 py-8">
       <Loader2
-        className={`${sizeClasses[size]} animate-spin text-brand-600`}
+        className={`${sizeClasses[size]} animate-spin text-brand-500`}
       />
       {message && (
-        <p className="text-sm text-gray-500 animate-pulse">{message}</p>
+        <p className="text-sm text-ivory-muted animate-pulse">{message}</p>
       )}
     </div>
   );

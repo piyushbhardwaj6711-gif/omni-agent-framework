@@ -38,13 +38,13 @@ export function getTemperatureColor(temp: string): string {
   const upper = temp.toUpperCase();
   switch (upper) {
     case 'HOT':
-      return 'bg-red-100 text-red-700 border-red-200';
+      return 'bg-danger-100 text-danger-400 border-danger-200';
     case 'WARM':
-      return 'bg-amber-100 text-amber-700 border-amber-200';
+      return 'bg-warning-100 text-warning-400 border-warning-200';
     case 'COLD':
-      return 'bg-blue-100 text-blue-700 border-blue-200';
+      return 'bg-peach-500/10 text-peach-300 border-peach-500/20';
     default:
-      return 'bg-gray-100 text-gray-700 border-gray-200';
+      return 'bg-white/[0.06] text-ivory-muted border-bronze';
   }
 }
 
@@ -55,21 +55,21 @@ export function getStatusColor(status: string): string {
   const upper = status.toUpperCase();
   switch (upper) {
     case 'NEW':
-      return 'bg-blue-100 text-blue-700';
+      return 'bg-peach-500/10 text-peach-300';
     case 'CONTACTED':
-      return 'bg-indigo-100 text-indigo-700';
+      return 'bg-brand-500/10 text-brand-300';
     case 'QUALIFIED':
-      return 'bg-emerald-100 text-emerald-700';
+      return 'bg-success-100 text-success-400';
     case 'NEGOTIATING':
-      return 'bg-amber-100 text-amber-700';
+      return 'bg-warning-100 text-warning-400';
     case 'CONVERTED':
-      return 'bg-green-100 text-green-700';
+      return 'bg-success-200 text-success-400';
     case 'LOST':
-      return 'bg-gray-100 text-gray-500';
+      return 'bg-white/[0.06] text-ivory-faint';
     case 'SITE_VISIT_SCHEDULED':
-      return 'bg-purple-100 text-purple-700';
+      return 'bg-peach-200 text-peach-700';
     default:
-      return 'bg-gray-100 text-gray-700';
+      return 'bg-white/[0.06] text-ivory-muted';
   }
 }
 

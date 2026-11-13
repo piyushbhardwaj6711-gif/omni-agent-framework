@@ -32,19 +32,19 @@ export default function PropertyCard({
       initial={{ opacity: 0, y: 10, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.35, ease: 'easeOut' }}
-      className="relative bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow"
+      className="relative bg-canvas-overlay rounded-xl border border-bronze shadow-card overflow-hidden hover:border-bronze-light transition-colors"
     >
       {/* Accent stripe */}
-      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-brand-500 to-violet-500" />
+      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-brand-400 to-brand-600" />
 
       <div className="pl-4 pr-4 py-3.5">
         {/* Header */}
         <div className="flex items-start justify-between gap-2 mb-2">
           <div>
-            <h4 className="font-semibold text-gray-900 text-sm leading-tight">
+            <h4 className="font-semibold text-ivory text-sm leading-tight">
               {property.name}
             </h4>
-            <p className="text-xs text-gray-500 mt-0.5">{property.developer}</p>
+            <p className="text-xs text-ivory-muted mt-0.5">{property.developer}</p>
           </div>
           {matchScore !== undefined && (
             <Badge
@@ -58,24 +58,24 @@ export default function PropertyCard({
         </div>
 
         {/* Info grid */}
-        <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-gray-600 mb-2.5">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-ivory-muted mb-2.5">
           <div className="flex items-center gap-1.5">
-            <MapPin className="h-3 w-3 text-gray-400" />
+            <MapPin className="h-3 w-3 text-ivory-faint" />
             <span>
               {property.address?.area}, {property.address?.city}
             </span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Home className="h-3 w-3 text-gray-400" />
+            <Home className="h-3 w-3 text-ivory-faint" />
             <span>{getBHKLabel(property.bhk)}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Ruler className="h-3 w-3 text-gray-400" />
+            <Ruler className="h-3 w-3 text-ivory-faint" />
             <span>{formatArea(property.area_sqft)}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <IndianRupee className="h-3 w-3 text-gray-400" />
-            <span className="font-semibold text-gray-900">
+            <IndianRupee className="h-3 w-3 text-ivory-faint" />
+            <span className="font-semibold text-ivory">
               {formatLakhs(property.price_lakhs)}
             </span>
           </div>
@@ -83,14 +83,14 @@ export default function PropertyCard({
 
         {/* Price per sqft */}
         {property.price_per_sqft > 0 && (
-          <p className="text-[11px] text-gray-400 mb-2">
+          <p className="text-[11px] text-ivory-faint mb-2">
             ₹{property.price_per_sqft.toLocaleString('en-IN')}/sq.ft
           </p>
         )}
 
         {/* EMI Estimate */}
         {emiEstimate && (
-          <div className="flex items-center gap-1.5 text-xs text-emerald-600 bg-emerald-50 rounded-lg px-2.5 py-1.5 mb-2">
+          <div className="flex items-center gap-1.5 text-xs text-success-400 bg-success-100 border border-success-200 rounded-lg px-2.5 py-1.5 mb-2">
             <IndianRupee className="h-3 w-3" />
             <span>EMI: ~{emiEstimate}/month</span>
           </div>
@@ -102,13 +102,13 @@ export default function PropertyCard({
             {displayAmenities.map((amenity) => (
               <span
                 key={amenity}
-                className="text-[10px] bg-gray-100 text-gray-600 rounded-full px-2 py-0.5"
+                className="text-[10px] bg-canvas-raised text-ivory-muted border border-bronze-faint rounded-full px-2 py-0.5"
               >
                 {amenity}
               </span>
             ))}
             {property.amenities && property.amenities.length > 4 && (
-              <span className="text-[10px] text-gray-400">
+              <span className="text-[10px] text-ivory-faint">
                 +{property.amenities.length - 4} more
               </span>
             )}
@@ -116,13 +116,13 @@ export default function PropertyCard({
         )}
 
         {/* Footer: RERA + actions */}
-        <div className="flex items-center justify-between pt-2 border-t border-gray-100">
-          <div className="flex items-center gap-1.5 text-[10px] text-gray-400">
+        <div className="flex items-center justify-between pt-2 border-t border-bronze-faint">
+          <div className="flex items-center gap-1.5 text-[10px] text-ivory-faint">
             <Shield className="h-3 w-3" />
             <span>RERA: {property.rera_id}</span>
           </div>
           {property.possession_date && (
-            <div className="flex items-center gap-1 text-[10px] text-gray-400">
+            <div className="flex items-center gap-1 text-[10px] text-ivory-faint">
               <Calendar className="h-3 w-3" />
               <span>{property.possession_date}</span>
             </div>
@@ -133,7 +133,7 @@ export default function PropertyCard({
         {onBookVisit && (
           <button
             onClick={() => onBookVisit(property)}
-            className="mt-2.5 w-full py-2 rounded-lg bg-gradient-to-r from-brand-600 to-indigo-600 text-white text-xs font-medium hover:from-brand-700 hover:to-indigo-700 transition-all shadow-sm hover:shadow"
+            className="mt-2.5 w-full py-2 rounded-lg bg-brand-500 text-[#171411] text-xs font-semibold hover:bg-brand-400 transition-colors"
           >
             📅 Book Site Visit
           </button>

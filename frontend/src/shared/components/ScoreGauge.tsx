@@ -8,15 +8,15 @@ interface ScoreGaugeProps {
 }
 
 function getScoreColor(score: number): string {
-  if (score <= 30) return '#f43f5e'; // rose-500
-  if (score <= 60) return '#f59e0b'; // amber-500
-  return '#10b981'; // emerald-500
+  if (score <= 30) return '#CE6B59'; // danger-500 (warm rose)
+  if (score <= 60) return '#C99A55'; // warning-500 (warm amber)
+  return '#7FA584'; // success-500 (warm sage)
 }
 
 function getScoreTrackColor(score: number): string {
-  if (score <= 30) return '#ffe4e6'; // rose-100
-  if (score <= 60) return '#fef3c7'; // amber-100
-  return '#d1fae5'; // emerald-100
+  if (score <= 30) return '#332320'; // danger-100
+  if (score <= 60) return '#332B1E'; // warning-100
+  return '#2A2E26'; // success-100
 }
 
 export default function ScoreGauge({
@@ -83,7 +83,7 @@ export default function ScoreGauge({
         </div>
       </div>
       {label && (
-        <span className="text-xs text-gray-500 font-medium">{label}</span>
+        <span className="text-xs text-ivory-muted font-medium">{label}</span>
       )}
     </div>
   );

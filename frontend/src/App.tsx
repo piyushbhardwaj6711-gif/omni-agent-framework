@@ -1,166 +1,147 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  MessageSquare,
-  LayoutDashboard,
-  Rocket,
-  Building2,
-  Sparkles,
-  Terminal,
-} from 'lucide-react';
+import { Sparkles, Zap, LayoutGrid } from 'lucide-react';
+import Sidebar, { type View } from './shared/components/Sidebar';
+import TopBar from './shared/components/TopBar';
+import HomeView from './features/home/HomeView';
 import ChatView from './features/chat/ChatView';
 import DashboardView from './features/dashboard/DashboardView';
+import LeadsView from './features/leads/LeadsView';
+import SettingsView from './features/settings/SettingsView';
+import ComingSoonView from './features/placeholder/ComingSoonView';
 import VisionView from './features/vision/VisionView';
-import SimulatedBanner from './shared/components/SimulatedBanner';
-
-type Tab = 'chat' | 'dashboard' | 'vision';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<Tab>('chat');
+  const [activeView, setActiveView] = useState<View>('home');
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  /** Prompt handed from the Home composer into a fresh chat session. */
+  const [chatPrompt, setChatPrompt] = useState<string | null>(null);
+  /** Bumped on every hand-off so ChatView remounts with a clean session. */
+  const [chatKey, setChatKey] = useState(0);
+
+  const navigate = (view: View) => {
+    setActiveView(view);
+    setMobileNavOpen(false);
+  };
+
+  /** Home composer / assistant card → live PONDO AI conversation. */
+  const askPondo = (prompt: string) => {
+    setChatPrompt(prompt);
+    setChatKey((k) => k + 1);
+    setActiveView('chat');
+    setMobileNavOpen(false);
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
-      {/* Top Demo Notification Banner */}
-      <div className="bg-amber-500/10 border-b border-amber-500/20 py-1.5 px-4 text-center">
-        <div className="max-w-7xl mx-auto flex items-center justify-center gap-2 text-xs font-medium text-amber-800">
-          <SimulatedBanner />
-          <span>
-            Operating in Pune Market Demo mode. All property inventory, lead scores & predictions are simulated.
-          </span>
-        </div>
+    <div className="min-h-screen bg-canvas font-sans">
+      {/* Ambient warm background — subtle brand waves across the workspace */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute -top-48 -right-32 w-[640px] h-[640px] rounded-full bg-[radial-gradient(circle,rgba(200,121,80,0.13),transparent_65%)] blur-3xl" />
+        <div className="absolute top-1/3 -left-48 w-[560px] h-[560px] rounded-full bg-[radial-gradient(circle,rgba(232,185,154,0.06),transparent_65%)] blur-3xl" />
+        <div className="absolute -bottom-64 right-1/4 w-[680px] h-[680px] rounded-full bg-[radial-gradient(circle,rgba(200,121,80,0.07),transparent_65%)] blur-3xl" />
       </div>
 
-      {/* Main App Navigation Header */}
-      <header className="sticky top-0 z-30 bg-white border-b border-gray-200 shadow-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Brand Logo & Title */}
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
-                <Building2 className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-lg font-black tracking-tight text-gray-900">
-                    EstateIQ
-                  </span>
-                  <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-indigo-100 text-indigo-700">
-                    V0 DEMO
-                  </span>
-                </div>
-                <div className="text-[11px] text-gray-400 font-medium -mt-0.5">
-                  Autonomous AI Real Estate Operating Layer
-                </div>
-              </div>
-            </div>
+      <div className="relative flex min-h-screen">
+        {/* Desktop sidebar */}
+        <aside className="hidden lg:block sticky top-0 h-screen z-30">
+          <Sidebar activeView={activeView} onNavigate={navigate} />
+        </aside>
 
-            {/* Tab Navigation Controls */}
-            <nav className="flex items-center gap-1 bg-gray-100/80 p-1 rounded-xl border border-gray-200/60">
-              <button
-                onClick={() => setActiveTab('chat')}
-                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                  activeTab === 'chat'
-                    ? 'bg-white text-indigo-600 shadow-xs'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
+        {/* Mobile drawer */}
+        <AnimatePresence>
+          {mobileNavOpen && (
+            <>
+              <motion.button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                aria-label="Close navigation"
+                onClick={() => setMobileNavOpen(false)}
+                className="fixed inset-0 z-40 bg-black/60 lg:hidden cursor-default"
+              />
+              <motion.div
+                initial={{ x: -280 }}
+                animate={{ x: 0 }}
+                exit={{ x: -280 }}
+                transition={{ type: 'tween', duration: 0.2, ease: 'easeOut' }}
+                className="fixed inset-y-0 left-0 z-50 lg:hidden"
               >
-                <MessageSquare className="w-3.5 h-3.5" />
-                <span>AI Sales Chat</span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('dashboard')}
-                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                  activeTab === 'dashboard'
-                    ? 'bg-white text-indigo-600 shadow-xs'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                <LayoutDashboard className="w-3.5 h-3.5" />
-                <span>Sales Intelligence</span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('vision')}
-                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                  activeTab === 'vision'
-                    ? 'bg-white text-indigo-600 shadow-xs'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                <Rocket className="w-3.5 h-3.5 text-purple-600" />
-                <span>Where EstateIQ Goes Next</span>
-              </button>
-            </nav>
-
-            {/* Right Tenant Status Indicator */}
-            <div className="hidden md:flex items-center gap-3">
-              <div className="text-right text-xs">
-                <div className="font-semibold text-gray-800">Kohinoor Realtors</div>
-                <div className="text-[10px] text-emerald-600 font-medium">Tenant #001 • Online</div>
-              </div>
-              <div className="w-8 h-8 rounded-full bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-700 font-bold text-xs">
-                KR
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content Viewport */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
-        <AnimatePresence mode="wait">
-          {activeTab === 'chat' && (
-            <motion.div
-              key="chat"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.15 }}
-            >
-              <ChatView />
-            </motion.div>
-          )}
-
-          {activeTab === 'dashboard' && (
-            <motion.div
-              key="dashboard"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.15 }}
-            >
-              <DashboardView />
-            </motion.div>
-          )}
-
-          {activeTab === 'vision' && (
-            <motion.div
-              key="vision"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.15 }}
-            >
-              <VisionView />
-            </motion.div>
+                <Sidebar
+                  activeView={activeView}
+                  onNavigate={navigate}
+                  mobile
+                  onClose={() => setMobileNavOpen(false)}
+                />
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
-      </main>
 
-      {/* Footer */}
-      <footer className="border-t border-gray-200 bg-white py-4 text-center text-xs text-gray-500">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-gray-700">EstateIQ V0</span>
-            <span>•</span>
-            <span>Small Product Surface + Future-Proof Core</span>
-          </div>
-          <div className="text-[11px] text-gray-400">
-            Hexagonal Domain Architecture • India-First (Hinglish / RERA / INR Lakhs)
-          </div>
+        {/* Main column — fixed viewport height; pages scroll inside <main> */}
+        <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+          <TopBar
+            onOpenMobileNav={() => setMobileNavOpen(true)}
+            onNavigate={navigate}
+          />
+
+          <main className="flex-1 min-h-0 px-4 sm:px-8 lg:px-12 pb-6 overflow-y-auto">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeView === 'chat' ? `chat-${chatKey}` : activeView}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.18 }}
+                className={activeView === 'chat' ? 'h-full' : ''}
+              >
+                {activeView === 'home' && <HomeView onAsk={askPondo} />}
+
+                {activeView === 'chat' && (
+                  <ChatView
+                    key={chatKey}
+                    initialPrompt={chatPrompt ?? undefined}
+                  />
+                )}
+
+                {activeView === 'analytics' && <DashboardView />}
+
+                {activeView === 'leads' && <LeadsView />}
+
+                {activeView === 'agents' && (
+                  <ComingSoonView
+                    icon={Sparkles}
+                    title="AI Agents"
+                    description="Design your own business agents — assistants that understand your business, answer customers and take action on your behalf. This area unlocks once the agent-building backend is connected."
+                    onNavigate={navigate}
+                  />
+                )}
+
+                {activeView === 'automations' && (
+                  <ComingSoonView
+                    icon={Zap}
+                    title="Automations"
+                    description="Put repetitive work on autopilot — follow-ups, reminders, reports and workflows that run themselves. This area unlocks once the workflow engine is connected."
+                    onNavigate={navigate}
+                  />
+                )}
+
+                {activeView === 'templates' && (
+                  <ComingSoonView
+                    icon={LayoutGrid}
+                    title="Templates"
+                    description="Ready-made playbooks for your industry — lead follow-ups, booking flows, outreach sequences and more. This area unlocks once the template library is connected."
+                    onNavigate={navigate}
+                  />
+                )}
+
+                {activeView === 'settings' && <SettingsView onNavigate={navigate} />}
+
+                {activeView === 'vision' && <VisionView />}
+              </motion.div>
+            </AnimatePresence>
+          </main>
         </div>
-      </footer>
+      </div>
     </div>
   );
 }

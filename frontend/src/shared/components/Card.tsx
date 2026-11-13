@@ -16,9 +16,9 @@ export default function Card({
   return (
     <div
       onClick={onClick}
-      className={`bg-white rounded-xl shadow-sm border border-gray-100 ${
+      className={`bg-canvas-overlay rounded-xl shadow-card border border-bronze ${
         hover
-          ? 'hover:shadow-md hover:border-gray-200 transition-all duration-200 cursor-pointer'
+          ? 'hover:border-bronze-light transition-all duration-200 cursor-pointer'
           : ''
       } ${onClick ? 'cursor-pointer' : ''} ${className}`}
     >

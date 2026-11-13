@@ -79,7 +79,7 @@ export default function ChatMessage({ message, children }: ChatMessageProps) {
         transition={{ duration: 0.3 }}
         className="flex justify-center px-4 py-2"
       >
-        <span className="text-xs text-gray-400 bg-gray-100 rounded-full px-3 py-1">
+        <span className="text-xs text-ivory-muted bg-canvas-raised border border-bronze-faint rounded-full px-3 py-1">
           {message.content}
         </span>
       </motion.div>
@@ -96,8 +96,8 @@ export default function ChatMessage({ message, children }: ChatMessageProps) {
       }`}
     >
       {!isUser && (
-        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-violet-600 flex items-center justify-center shadow-sm">
-          <Bot className="h-4 w-4 text-white" />
+        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center shadow-pill">
+          <Bot className="h-4 w-4 text-canvas-deep" />
         </div>
       )}
 
@@ -105,8 +105,8 @@ export default function ChatMessage({ message, children }: ChatMessageProps) {
         <div
           className={`px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap ${
             isUser
-              ? 'bg-gradient-to-br from-brand-600 to-indigo-700 text-white rounded-2xl rounded-br-sm shadow-md'
-              : 'bg-white border border-gray-200 text-gray-800 rounded-2xl rounded-tl-sm shadow-sm'
+              ? 'bg-brand-500 text-[#171411] rounded-2xl rounded-br-sm shadow-pill'
+              : 'bg-canvas-overlay border border-bronze text-ivory rounded-2xl rounded-tl-sm shadow-pill'
           }`}
         >
           {isUser ? message.content : renderContent(message.content)}
@@ -114,13 +114,13 @@ export default function ChatMessage({ message, children }: ChatMessageProps) {
 
         {children && <div className="mt-2 w-full">{children}</div>}
 
-        <span className="text-[10px] text-gray-400 mt-1 px-1">
+        <span className="text-[10px] text-ivory-faint mt-1 px-1">
           {formatTimestamp(message.timestamp)}
         </span>
       </div>
 
       {isUser && (
-        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600">
+        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-canvas-raised border border-bronze flex items-center justify-center text-ivory-muted">
           <span className="text-xs font-semibold">You</span>
         </div>
       )}
